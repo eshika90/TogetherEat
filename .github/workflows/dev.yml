@@ -44,3 +44,4 @@ jobs:
         KAKAO_API_KEY: ${{ secrets.KAKAO_API_KEY }}
         KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
         KAKAO_CALLBACK_URL: ${{ secrets.KAKAO_CALLBACK_URL }}
+        
