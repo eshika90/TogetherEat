@@ -7,7 +7,7 @@ TIME_NOW=$(date +%c)
 
 cd $PROJECT_ROOT
 
-pm2 delete $APP_NAME
-pm2 start npm --name $APP_NAME -- start
+pm2 delete 0
+pm2 start npm -- start
 
 echo "$TIME_NOW > Deploy has been completed"
