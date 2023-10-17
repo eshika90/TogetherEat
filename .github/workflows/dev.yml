@@ -29,4 +29,18 @@ jobs:
 
     - name: Run npm start:dev
       run: npm run start:dev
-      
+      env: 
+        DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+        DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+        DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+        DATABASE_SYNCHRONIZE: ${{ secrets.DATABASE_SYNCHRONIZE }}
+        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+        REGION: ${{ secrets.REGION }}
+        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+        AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        KAKAO_API_KEY: ${{ secrets.KAKAO_API_KEY }}
+        KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+        KAKAO_CALLBACK_URL: ${{ secrets.KAKAO_CALLBACK_URL }}
