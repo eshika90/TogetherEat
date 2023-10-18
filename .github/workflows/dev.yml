@@ -27,21 +27,25 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run npm start:dev
-      run: npm run start:dev
-      env: 
-        DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-        DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
-        DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-        DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-        DATABASE_SYNCHRONIZE: ${{ secrets.DATABASE_SYNCHRONIZE }}
-        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-        REGION: ${{ secrets.REGION }}
-        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-        AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-        KAKAO_API_KEY: ${{ secrets.KAKAO_API_KEY }}
-        KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
-        KAKAO_CALLBACK_URL: ${{ secrets.KAKAO_CALLBACK_URL }}
+    - name: Set environment variables and start application
+      run: |
+        export DATABASE_HOST=${{ secrets.DATABASE_HOST }}
+        export DATABASE_PORT=${{ secrets.DATABASE_PORT }}
+        export DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
+        export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+        export DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+        export DATABASE_SYNCHRONIZE=${{ secrets.DATABASE_SYNCHRONIZE }}
+        export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+        export REGION=${{ secrets.REGION }}
+        export BUCKET_NAME=${{ secrets.BUCKET_NAME }}
+        export AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
+        export AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+        export KAKAO_API_KEY=${{ secrets.KAKAO_API_KEY }}
+        export KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}
+        export KAKAO_CALLBACK_URL=${{ secrets.KAKAO_CALLBACK_URL }}
+        npm install
+        npm run build
+        pm2 delete 0
+        pm2 start dist/main.js
+
         
