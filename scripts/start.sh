@@ -16,4 +16,3 @@ pm2 start main.js --name $APP_NAME
 echo "$TIME_NOW > Deploy has been completed"
 
 
-
