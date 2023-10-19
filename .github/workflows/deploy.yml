@@ -32,33 +32,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18.17.1'
-
-
         
         # (4) build (Test 제외)
       - name: Install dependencies
         run: npm install
-
-        # (3) 환경변수 세팅
-      - name: Set environment variables and start application
-        run: |
-          export DATABASE_HOST=${{ secrets.DATABASE_HOST }}
-          export DATABASE_PORT=${{ secrets.DATABASE_PORT }}
-          export DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}
-          export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
-          export DATABASE_NAME=${{ secrets.DATABASE_NAME }}
-          export DATABASE_SYNCHRONIZE=${{ secrets.DATABASE_SYNCHRONIZE }}
-          export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
-          export REGION=${{ secrets.REGION }}
-          export BUCKET_NAME=${{ secrets.BUCKET_NAME }}
-          export AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
-          export AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
-          export KAKAO_API_KEY=${{ secrets.KAKAO_API_KEY }}
-          export KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}
-          export KAKAO_CALLBACK_URL=${{ secrets.KAKAO_CALLBACK_URL }}
-          
-      - name: Build test
-        run: npm run build
         
       # (5) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
       - name: Configure AWS credentials
