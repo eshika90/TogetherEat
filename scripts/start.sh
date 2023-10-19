@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ubuntu/app"
+PROJECT_ROOT="/app"
 APP_NAME="project"
 
 TIME_NOW=$(date +%c)
