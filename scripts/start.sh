@@ -11,3 +11,4 @@ pm2 delete $APP_NAME
 pm2 start main.js
 
 echo "$TIME_NOW > Deploy has been completed"
+
