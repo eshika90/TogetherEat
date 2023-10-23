@@ -1,7 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-cd /home/ubuntu/app
+PROJECT_ROOT="/home/ubuntu/app"
+APP_NAME="project"
 
-sudo npm install
-sudo pm2 kill
-sudo pm2 start "npm run start:prod"
+TIME_NOW=$(date +%c)
+cd $PROJECT_ROOT
+pm2 delete $APP_NAME
+pm2 start npm --name $APP_NAME -- run start:dev
+echo "$TIME_NOW > Deploy has been completed"
