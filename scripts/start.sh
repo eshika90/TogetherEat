@@ -9,9 +9,9 @@ cd $PROJECT_ROOT
 # Step 1: 프로젝트 실행
 npm run start:dev
 
-# Step 2: 프로세스 종료
+# Step 2: 2분 후 프로세스 종료
 sleep 120 # 2분을 기다립니다.
-kill %1
+killall node
 
 # Step 3: 업데이트된 main.js 실행
 pm2 delete 0
