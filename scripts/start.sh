@@ -7,10 +7,10 @@ TIME_NOW=$(date +%c)
 cd $PROJECT_ROOT
 
 # Step 1: 프로젝트 실행
-npm run start:dev &
+npm run start:dev
 
 # Step 2: 프로세스 종료
-sleep 180 # 3분을 기다립니다.
+sleep 120 # 2분을 기다립니다.
 kill %1
 
 # Step 3: 업데이트된 main.js 실행
