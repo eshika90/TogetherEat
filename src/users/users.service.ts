@@ -3,9 +3,8 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
+  Inject,
 } from '@nestjs/common';
-
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,13 +12,17 @@ import _, { remove } from 'lodash';
 import { Repository } from 'typeorm';
 import { User } from 'src/entity/user.entity';
 import { MailService } from 'src/mail/mail.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 let isEmailVerified: Record<string, boolean> = {};
 let codeObject: Record<string, string> = {};
+
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @Inject(CACHE_MANAGER) private cacheService: Cache,
     private jwtService: JwtService,
     private mailservice: MailService,
   ) {}
@@ -38,7 +41,7 @@ export class UsersService {
     });
   }
 
-  // 중복이메일 확인
+  // node-mailer 로직
   async mailSend(email: string, code: string) {
     const existUser = await this.userRepository.findOne({
       where: { email },
@@ -56,6 +59,11 @@ export class UsersService {
       email,
       verificationCode.toString(),
     );
+    // 캐시로 랜덤 코드 저장하기
+    const cacheCode = await this.cacheService.set(email, verificationCode);
+    console.log('data set to cache', cacheCode);
+    const cachedData = await this.cacheService.get(email);
+    console.log('data get to cache', cachedData);
 
     // 랜덤 코드를 객체에 저장
     codeObject['code'] = verificationCode.toString();
@@ -139,6 +147,7 @@ export class UsersService {
       expiresIn: '30m',
     });
     const refreshToken = userConfirm.refresh_token;
+    
     return { accessToken, refreshToken };
   }
 

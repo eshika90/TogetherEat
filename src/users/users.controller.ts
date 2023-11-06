@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   Req,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create.user.dto';
@@ -13,6 +14,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { Request } from 'express';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { DeleteUserDto } from './dto/delete.user.dto';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 interface RequestWithLocals extends Request {
   locals: {
     user: {
@@ -35,6 +37,7 @@ export class UsersController {
   }
 
   // 인증번호 전송 엔드포인트
+  @UseInterceptors(CacheInterceptor)
   @Post('/send-code')
   async mailSend(@Body('email') email: string, code: string) {
     await this.userService.mailSend(email, code);
@@ -49,6 +52,7 @@ export class UsersController {
   }
 
   // 회원가입
+  @UseInterceptors(CacheInterceptor)
   @Post('/sign')
   async createUser(@Body() data: CreateUserDto) {
     const newUser = await this.userService.createUser(

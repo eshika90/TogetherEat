@@ -31,9 +31,26 @@ import { IngredientModule } from './ingredient/ingredient.module';
 import { UsersActionsModule } from './users.actions/users.actions.module';
 import { AuthModule } from './auth/auth.module';
 import { FeedsModule } from './feeds/feeds.module';
+import { CacheModule, CacheStore } from '@nestjs/cache-manager';
+import { RedisModule } from './redis/redis.module';
+import { redisStore } from 'cache-manager-redis-store';
+import type { RedisClientOptions } from 'redis';
 
 @Module({
   imports: [
+    CacheModule.registerAsync<RedisClientOptions>({
+      isGlobal: true,
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        store: (await redisStore({
+          // url: 'redis://localhost:6379',
+          url: configService.get('REDIS_URL'),
+        })) as unknown as CacheStore,
+        ttl: 0,
+        // port: 6379,
+      }),
+      inject: [ConfigService],
+    }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),
     }),
@@ -78,6 +95,7 @@ import { FeedsModule } from './feeds/feeds.module';
     UsersActionsModule,
     AuthModule,
     FeedsModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthMiddleware],
