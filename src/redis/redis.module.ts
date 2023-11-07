@@ -8,7 +8,6 @@ import * as redisStore from 'cache-manager-ioredis';
   imports: [
     CacheModule.register({
       store: redisStore,
-      host: 'redis-2gether.t6kwsp.ng.0001.apn2.cache.amazonaws.com:6379',
       port: 6379,
       ttl: 5,
     }),
