@@ -76,6 +76,7 @@ export class UsersService {
 
   // 메일 인증 확인하는 코드 로직이 필요
   async verifyCode(email: string, code: string) {
+    // const verifyingCode = await this.cacheService.get(email); // redis 사용 로직
     if (codeObject['code'] !== code || codeObject['email'] !== email) {
       throw new ConflictException(
         '인증 코드 및 인증 이메일이 유효하지 않습니다.',
@@ -83,6 +84,11 @@ export class UsersService {
     } else {
       isEmailVerified['email'] = true;
     }
+    // if (verifyingCode === code) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
   async createUser(

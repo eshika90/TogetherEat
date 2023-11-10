@@ -32,7 +32,6 @@ import { UsersActionsModule } from './users.actions/users.actions.module';
 import { AuthModule } from './auth/auth.module';
 import { FeedsModule } from './feeds/feeds.module';
 import { CacheModule, CacheStore } from '@nestjs/cache-manager';
-import { RedisModule } from './redis/redis.module';
 import { redisStore } from 'cache-manager-redis-store';
 import type { RedisClientOptions } from 'redis';
 
@@ -47,7 +46,6 @@ import type { RedisClientOptions } from 'redis';
           url: configService.get('REDIS_URL'),
         })) as unknown as CacheStore,
         ttl: 0,
-        // port: 6379,
       }),
       inject: [ConfigService],
     }),
@@ -95,7 +93,6 @@ import type { RedisClientOptions } from 'redis';
     UsersActionsModule,
     AuthModule,
     FeedsModule,
-    RedisModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthMiddleware],

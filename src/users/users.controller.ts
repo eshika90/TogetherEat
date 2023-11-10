@@ -47,8 +47,13 @@ export class UsersController {
   // 메일 인증 확인 엔드포인트
   @Post('/verify-code')
   async verifyCode(@Body('email') email: string, @Body('code') code: string) {
-    await this.userService.verifyCode(email, code);
+    const checkEmail = await this.userService.verifyCode(email, code);
     return { message: '이메일이 인증되었습니다.' };
+    // if (checkEmail) {
+    //   return { message: '이메일이 인증되었습니다.' };
+    // } else {
+    //   return { message: '이메일 인증에 실패하였습니다.' };
+    // }
   }
 
   // 회원가입

@@ -10,7 +10,6 @@ import { Repository } from 'typeorm';
 import { Food } from 'src/entity/food.entity';
 import { User } from 'src/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
 import { S3Service } from 'src/aws/s3.service';
 
 @Injectable()
