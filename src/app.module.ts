@@ -45,7 +45,6 @@ import type { RedisClientOptions } from 'redis';
           // url: 'redis://localhost:6379',
           url: configService.get('REDIS_URL'),
         })) as unknown as CacheStore,
-        ttl: 0,
       }),
       inject: [ConfigService],
     }),
