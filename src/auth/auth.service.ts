@@ -22,6 +22,7 @@ export class AuthService {
     this.http = new HttpService();
     this.accessToken = '';
   }
+  signIn(email, password) {}
 
   async generateAccessToken(payload: string) {
     const access_Token = await this.jwtService.signAsync(payload, {

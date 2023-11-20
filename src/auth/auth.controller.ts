@@ -1,6 +1,19 @@
-import { Controller, Get, Header, Query, Req, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Header,
+  Query,
+  Req,
+  Res,
+  Body,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+  Request,
+  Post,
+} from '@nestjs/common';
+import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
 interface OauthUser {
@@ -15,10 +28,21 @@ interface OauthUser {
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly usersService: UsersService,
     private readonly configService: ConfigService,
   ) {}
 
+  // auth guard 사용 로직
+  @HttpCode(HttpStatus.OK)
+  @Post('auth-login')
+  signIn(@Body() data) {
+    return this.authService.signIn(data.email, data.password);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
   //------------------카카오 로그인 페이지----------------------------//
   @Get('kakaoLogin')
   @Header('Content-Type', 'text/html')

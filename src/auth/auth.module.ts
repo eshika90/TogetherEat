@@ -14,6 +14,7 @@ import { JwtKakaoStrategy } from 'src/config/jwt.social.kakao.strategy';
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.registerAsync({
+      global: true,
       imports: [ConfigModule],
       useClass: JwtConfigService,
       inject: [ConfigService],
