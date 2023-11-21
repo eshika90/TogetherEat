@@ -19,7 +19,7 @@
 
 ## 🎫 Service Architecture
 
-
+<img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/togetherEat_service_architecture_rv1.png">
 
 ## 💡 Technical Decision
 |Skill|Desciption|
