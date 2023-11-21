@@ -1,68 +1,34 @@
-# 🍖프로젝트 로고
-<p align="center">
-<img width="600" alt="image" src="https://github.com/rammakasty/readmy/assets/25074165/87cb2d43-9f69-4892-973d-d6636c95c1f9">
-</p>
-
-## ✍🏻 서비스 소개
-
-이 프로젝트는 Nest.js, MySQL, TypeORM을 활용하여 개인의 선호도를 반영한 음식점 추천 서비스를 구현하는 것을 목표로 합니다. <br>
-사용자의 선호도와 평가를 기반으로, 맞춤형 음식점을 랜덤으로 추천하여 사용자에게 다양하고 개인화된 음식점 경험을 제공합니다.
-
-## ⛅️ 팀원 소개
-
-  - 김세령(팀장)([https://github.com/eshika90](https://github.com/eshika90))
-  - 오준석(부팀장)([https://github.com/KORjunseok](https://github.com/KORjunseok))
-  - 이서원([https://github.com/rymile](https://github.com/rymile))
-  - 최하영([https://github.com/rammakasty](https://github.com/rammakasty))
-  - 함형진([https://github.com/HyungJin0114](https://github.com/HyungJin0114))
-
-    
-## 🌿 핵심 기능 <br>
-  <summary>🍕 음식 랜덤 뽑기</summary>
-  <br>
-    - 선호도 조사와 사용자의 음식 선택 가중치를 적용된 수치가 확률로 환산되어 음식이 추천되게 됩니다. <br>
+<div align=center>
+  <h1>Together Eat Web Service</h1>
+  오늘도 점심 뭐 먹을지, 저녁 뭐 먹을지 결정 못하셨나요? <br>
+  모든 사람들의 고민 '오늘 뭐 먹지?' 해결해드립니다!
+</div>
 
 
-## ❄️ Project Architecture
+## 🍜 How to use our web page
 
-<p align="center">
-<img width="766" alt="image" src="https://github.com/Final-Project-mechu/backend/assets/25074165/0a8255b5-1a88-411c-83df-a88f2705dde6">
-</p>
+- ☘회원가입 후 좋아하는 음식, 싫어하는 음식, 못먹는 재료 등을 선택합니다.<br>
+- 🍽메뉴추천을 눌러 원하는 음식 종류의 탭을 누른 후 메뉴 추천받기 버튼 클릭!<br>
+- 🍚오늘 먹을 메뉴 고민 해결!<br>
+- 🍔보너스로 맛집 추천받기를 눌러 근처 음식점을 추천받을 수 있습니다!<br><br>
 
+| 음식추천 페이지 | 맛집 추천받기 페이지 |
+| -------- | -------- |
+| <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/togetherEatMain.JPG">  | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/togetherEatmap.JPG">  |
 
-## 🛠 Tech Stack
+## 🎫 Service Architecture
 
-- Nest.js
-- MySQL
-- EC2
-- Nginx
-- S3
-- https
+<img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/togetherEat_service_architecture.png">
 
+## 💾 ERD Structure
+<img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/erdstructure.JPG">
 
+## 👍 Contributors
+- Project name : Together Eat!
+- Duration: 2023.08.16 ~ 2023.09.18 5weeks
 
-## 🌧 Library
-
-|       library       |                         description                         |
-| :-----------------: | :---------------------------------------------------------: |
-|       dotenv        |            보안적으로 문제가 있는 데이터 숨기기             |
-|        cors         |            CORS보안 정책을 해결하기 위하여 사용.            |
-|       bcrypt        |         해시함수를 사용하여 암호화 하기 위해 사용.          |
-|       express       |       빠르고 개방적인 개발을 위해 웹 프레임워크 사용.       |
-|    jsonwebtoken     |                    JWT Token 위해 사용.                     |
-|       logger        |                에러 로그 관리하기 위해 사용.                |
-|       mysql2        |           Node.js에서 MySQL을 사용하기 위해 사용.           |          |
-|       multer        |                         파일 업로드                         |
-|      multer-s3      |                      S3에 파일 업로드                       |
-|       Nodemailer    |        이메일 인증번호를 통한 확인 모듈                     |
+| <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/ksr.jpg"> | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/ojs.jpg"> | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/lsw.jpg"> | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/chy.jpg"> | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/hhj.jpg"> |
+| :---: | :---: | :---: | :---: | :---: |
+| [김세령](https://github.com/KORjunseok)  | [오준석](https://github.com/KORjunseok)  | [이서원](https://github.com/rymile)  | [최하영](https://github.com/rammakasty)  | [함형진](https://github.com/HyungJin0114)  |
 
 
-
-## 📋 ERD
-### [erd](https://www.erdcloud.com/d/NCvcJMym5hyi5PSAS)
-<p align="center">
-<img width="1000" alt="image" src="https://github.com/rammakasty/readmy/assets/25074165/0aead7f6-1191-47b4-913e-d323ea99c740">
-</p>
-
-  - api
-# [api](https://app.gitbook.com/o/3ZIunUQ2WiZIp9gGAoWE/s/Kqw3yoEod59gXOBkMex4/)
