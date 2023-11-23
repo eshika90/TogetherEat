@@ -94,7 +94,7 @@ export class UsersController {
   @Post('/server-logout')
   serverLogout(@Res({ passthrough: true }) response: Response) {
     response.clearCookie('AccessToken');
-    response.clearCookie('RefreshToken');
+    response.clearCookie('RefreshToken'); 
     return { message: 'server-logout 완료' };
   }
 
