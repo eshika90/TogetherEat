@@ -16,6 +16,7 @@ import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
+import { Response } from 'express';
 interface OauthUser {
   user: {
     nickName: string;
@@ -33,9 +34,11 @@ export class AuthController {
 
   // auth guard 사용 로직
   @HttpCode(HttpStatus.OK)
-  @Post('auth-login')
-  signIn(@Body() data) {
-    return this.authService.signIn(data.email, data.password);
+  @Post('/auth-login')
+  async signIn(@Body() data, @Res() res: Response) {
+    const jwtToken = await this.authService.signIn(data.email, data.password);
+    res.setHeader('Authorization', 'Bearer ' + jwtToken.accessToken);
+    return res.json(jwtToken);
   }
 
   @UseGuards(AuthGuard)

@@ -21,13 +21,7 @@ import { JwtKakaoStrategy } from 'src/config/jwt.social.kakao.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    UsersService,
-    JwtService,
-    MailService,
-    JwtKakaoStrategy,
-  ],
+  providers: [AuthService, UsersService, MailService, JwtKakaoStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

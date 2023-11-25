@@ -7,6 +7,8 @@ import { User } from 'src/entity/user.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
+import { Payload } from './security/payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +24,21 @@ export class AuthService {
     this.http = new HttpService();
     this.accessToken = '';
   }
-  signIn(email, password) {}
+
+  async signIn(
+    email: string,
+    password: string,
+  ): Promise<{ accessToken: string } | undefined> {
+    const user = await this.usersService.findUser(email);
+    const matchedPass = await bcrypt.compare(password, user.password);
+    if (matchedPass == false) {
+      throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
+    }
+    const payload: Payload = { id: user.id, nickname: user.nick_name };
+    return {
+      accessToken: await this.jwtService.signAsync(payload),
+    };
+  }
 
   async generateAccessToken(payload: string) {
     const access_Token = await this.jwtService.signAsync(payload, {
