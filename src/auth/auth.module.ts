@@ -9,6 +9,8 @@ import { MailService } from 'src/mail/mail.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtConfigService } from 'src/config/jwt.config.service';
 import { JwtKakaoStrategy } from 'src/config/jwt.social.kakao.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './passport.jwt.strategy';
 
 @Module({
   imports: [
@@ -19,9 +21,16 @@ import { JwtKakaoStrategy } from 'src/config/jwt.social.kakao.strategy';
       useClass: JwtConfigService,
       inject: [ConfigService],
     }),
+    PassportModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, UsersService, MailService, JwtKakaoStrategy],
+  providers: [
+    AuthService,
+    UsersService,
+    MailService,
+    JwtKakaoStrategy,
+    JwtStrategy,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

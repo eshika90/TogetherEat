@@ -9,14 +9,13 @@ import {
   HttpCode,
   HttpStatus,
   UseGuards,
-  Request,
   Post,
 } from '@nestjs/common';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './security/auth.guard';
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 interface OauthUser {
   user: {
     nickName: string;
@@ -35,16 +34,17 @@ export class AuthController {
   // auth guard 사용 로직
   @HttpCode(HttpStatus.OK)
   @Post('/auth-login')
-  async signIn(@Body() data, @Res() res: Response) {
+  async signIn(@Body() data, @Res({ passthrough: true }) res: Response) {
     const jwtToken = await this.authService.signIn(data.email, data.password);
-    res.setHeader('Authorization', 'Bearer ' + jwtToken.accessToken);
-    return res.json(jwtToken);
+    res.cookie('Authorization', 'Bearer ' + jwtToken.accessToken);
+    return { message: 'auth-login 테스트 완료' };
   }
 
+  @Get('/user-info')
   @UseGuards(AuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  getProfile(@Req() req: Request): any {
+    const user: any = req.user;
+    return user;
   }
   //------------------카카오 로그인 페이지----------------------------//
   @Get('kakaoLogin')

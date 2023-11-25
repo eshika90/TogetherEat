@@ -99,7 +99,7 @@ import type { RedisClientOptions } from 'redis';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes(
-      { path: 'users/find', method: RequestMethod.GET },
+      // { path: 'users/find', method: RequestMethod.GET },
       { path: 'users/findAdmin', method: RequestMethod.GET },
       { path: 'users/update', method: RequestMethod.PATCH },
       { path: 'users/quit', method: RequestMethod.POST },

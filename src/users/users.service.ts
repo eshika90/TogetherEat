@@ -34,6 +34,13 @@ export class UsersService {
     });
   }
 
+  async findUserById(id: number) {
+    return await this.userRepository.findOne({
+      where: { id, deletedAt: null },
+      select: ['id', 'nick_name'],
+    });
+  }
+
   async getUserNickName(user_id: number) {
     return await this.userRepository.findOne({
       where: { id: user_id },

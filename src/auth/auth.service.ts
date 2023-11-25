@@ -40,6 +40,10 @@ export class AuthService {
     };
   }
 
+  async tokenValidateUser(payload: Payload) {
+    return await this.usersService.findUserById(payload.id);
+  }
+
   async generateAccessToken(payload: string) {
     const access_Token = await this.jwtService.signAsync(payload, {
       secret: this.configService.get('JWT_SECRET_KEY'),
