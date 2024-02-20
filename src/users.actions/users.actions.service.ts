@@ -447,7 +447,6 @@ export class UsersActionsService {
     await this.adjustWeightsByUserActions(filteredFoods, userId);
     const validFoods = this.getValidFoods(filteredFoods);
     this.calculateProbabilities(validFoods);
-
     const selectedFood = this.performRandomWeightedSelection(validFoods);
     if (!selectedFood) {
       throw new BadRequestException('음식을 선택할 수 없습니다.');

@@ -15,11 +15,11 @@
 
 | 음식추천 페이지 | 맛집 추천받기 페이지 |
 | -------- | -------- |
-| <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/togetherEatMain.JPG">  | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/togetherEatmap.JPG">  |
+| ![main_page](./img/togetherEatMain.JPG)  | ![map_page](./img/togetherEatmap.JPG)  |
 
 ## 🎫 Service Architecture
 
-<img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/togetherEat_service_architecture_rv1.png">
+![service_architecture](./img/togetherEat_service_architecture_rv1.png)
 
 ## 💡 Technical Decision
 |Skill|Desciption|
@@ -40,13 +40,13 @@
 
 
 ## 💾 ERD Structure
-<img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/erdstructure.JPG">
+![ERD_structure](./img/erdstructure.JPG)
 
 ## 👨‍👨‍👦 Contributors
 - Project name : Together Eat!
 - Duration: 2023.08.16 ~ 2023.09.18 5 weeks
 
-| <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/ksr.jpg"> | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/ojs.jpg"> | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/lsw.jpg"> | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/chy.jpg"> | <img src="https://final-bucket-ksr.s3.ap-northeast-2.amazonaws.com/hhj.jpg"> |
+| ![ksr](./img/ksr.jpg) | ![ojs](./img/ojs.jpg) | ![page1](./img/lsw.jpg) | ![chy](./img/chy.jpg) | ![hhj](./img/hhj.jpg) |
 | :---: | :---: | :---: | :---: | :---: |
 | [김세령](https://github.com/KORjunseok) - 팀장 | [오준석](https://github.com/KORjunseok) - 부팀장 | [이서원](https://github.com/rymile)  | [최하영](https://github.com/rammakasty)  | [함형진](https://github.com/HyungJin0114)  |
 
