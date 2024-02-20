@@ -1,68 +1,53 @@
-# 🍖프로젝트 로고
-<p align="center">
-<img width="600" alt="image" src="https://github.com/rammakasty/readmy/assets/25074165/87cb2d43-9f69-4892-973d-d6636c95c1f9">
-</p>
-
-## ✍🏻 서비스 소개
-
-이 프로젝트는 Nest.js, MySQL, TypeORM을 활용하여 개인의 선호도를 반영한 음식점 추천 서비스를 구현하는 것을 목표로 합니다. <br>
-사용자의 선호도와 평가를 기반으로, 맞춤형 음식점을 랜덤으로 추천하여 사용자에게 다양하고 개인화된 음식점 경험을 제공합니다.
-
-## ⛅️ 팀원 소개
-
-  - 김세령(팀장)([https://github.com/eshika90](https://github.com/eshika90))
-  - 오준석(부팀장)([https://github.com/KORjunseok](https://github.com/KORjunseok))
-  - 이서원([https://github.com/rymile](https://github.com/rymile))
-  - 최하영([https://github.com/rammakasty](https://github.com/rammakasty))
-  - 함형진([https://github.com/HyungJin0114](https://github.com/HyungJin0114))
-
-    
-## 🌿 핵심 기능 <br>
-  <summary>🍕 음식 랜덤 뽑기</summary>
-  <br>
-    - 선호도 조사와 사용자의 음식 선택 가중치를 적용된 수치가 확률로 환산되어 음식이 추천되게 됩니다. <br>
+<div align=center>
+  <h1>Together Eat Web Service</h1>
+  오늘도 점심 뭐 먹을지, 저녁 뭐 먹을지 결정 못하셨나요? <br>
+  모든 사람들의 고민 '오늘 뭐 먹지?' 해결해드립니다!
+</div>
 
 
-## ❄️ Project Architecture
+## 🍜 How to use our web page
 
-<p align="center">
-<img width="766" alt="image" src="https://github.com/Final-Project-mechu/backend/assets/25074165/0a8255b5-1a88-411c-83df-a88f2705dde6">
-</p>
+☘ 회원가입 후 좋아하는 음식, 싫어하는 음식, 못먹는 재료 등을 선택합니다.<br>
+🍽 메뉴추천을 눌러 원하는 음식 종류의 탭을 누른 후 메뉴 추천받기 버튼 클릭!<br>
+🍚 오늘 먹을 메뉴 고민 해결!<br>
+🍔 보너스로 맛집 추천받기를 눌러 근처 음식점을 추천받을 수 있습니다!<br>
+📲 시연영상 보러가기 => https://www.youtube.com/watch?v=U9AF70mipEM <br><br>
 
+| 음식추천 페이지 | 맛집 추천받기 페이지 |
+| -------- | -------- |
+| ![main_page](./img/togetherEatMain.JPG)  | ![map_page](./img/togetherEatmap.JPG)  |
 
-## 🛠 Tech Stack
+## 🎫 Service Architecture
 
-- Nest.js
-- MySQL
-- EC2
-- Nginx
-- S3
-- https
+![service_architecture](./img/togetherEat_service_architecture_rv1.png)
+
+## 💡 Technical Decision
+|Skill|Desciption|
+|:---|:---:|
+|NestJS|팀 단위의 프로젝트를 하기에 유리하고 빠른 아키텍처 빌드와 코드 유지 보수가 간편하여 선택|
+|MySQL|유저의 음식 및 재료의 관계도를 설정하여 가중치에 의한 확률이 계산되도록 설계하기 위해 RDBMS인 MySQL을 선택|
+|AWS RDS|MySQL을 지원하는 보다 관리가 쉽고 비용이 절감되어 선택|
+|redis|회원가입 시 보내지는 인증 메일 및 코드를 저장하기 위함 / 최종 가중치를 빠르게 조회하기 위함 |
+|redislabs|AWS에서 제공하는 elasticache도 있었으나 비용문제로 free-tire를 제공해주는 redislabs를 선택|
+|KakaoMapAPI|네이버, 구글에 비해 무료로 사용할 수 있는 건수가 많으며 옵션들(marker 표시 등)이 많아 선택|
+|nodemailer|회원가입 시 인증메일을 보낼 수 있도록 하는 장치(무분별한 가입과 유저의 개인화를 위해)|
+|JWT|유저의 정보를 복호화하고 검증하기 위한 도구|
+|Git-flow|팀원 각각이 맡은 기능을 합치고, 버전 관리와 에러 관리를 위해 github를 관리 |
+|GithubActions|github에서 바로 사용 가능한 자동 배포 시스템|
+|AXIOS|프론트와 백엔드 연결 시 JSON타입을 기본 지원하여 선택|
+|AWS S3|피드에 올라갈 이미지 업로드와 자동 배포시 압축파일이 올라갈 수 있게 도와주는 bucket cloud|
 
 
 
-## 🌧 Library
+## 💾 ERD Structure
+![ERD_structure](./img/erdstructure.JPG)
 
-|       library       |                         description                         |
-| :-----------------: | :---------------------------------------------------------: |
-|       dotenv        |            보안적으로 문제가 있는 데이터 숨기기             |
-|        cors         |            CORS보안 정책을 해결하기 위하여 사용.            |
-|       bcrypt        |         해시함수를 사용하여 암호화 하기 위해 사용.          |
-|       express       |       빠르고 개방적인 개발을 위해 웹 프레임워크 사용.       |
-|    jsonwebtoken     |                    JWT Token 위해 사용.                     |
-|       logger        |                에러 로그 관리하기 위해 사용.                |
-|       mysql2        |           Node.js에서 MySQL을 사용하기 위해 사용.           |          |
-|       multer        |                         파일 업로드                         |
-|      multer-s3      |                      S3에 파일 업로드                       |
-|       Nodemailer    |        이메일 인증번호를 통한 확인 모듈                     |
+## 👨‍👨‍👦 Contributors
+- Project name : Together Eat!
+- Duration: 2023.08.16 ~ 2023.09.18 5 weeks
+
+| ![ksr](./img/ksr.jpg) | ![ojs](./img/ojs.jpg) | ![page1](./img/lsw.jpg) | ![chy](./img/chy.jpg) | ![hhj](./img/hhj.jpg) |
+| :---: | :---: | :---: | :---: | :---: |
+| [김세령](https://github.com/KORjunseok) - 팀장 | [오준석](https://github.com/KORjunseok) - 부팀장 | [이서원](https://github.com/rymile)  | [최하영](https://github.com/rammakasty)  | [함형진](https://github.com/HyungJin0114)  |
 
 
-
-## 📋 ERD
-### [erd](https://www.erdcloud.com/d/NCvcJMym5hyi5PSAS)
-<p align="center">
-<img width="1000" alt="image" src="https://github.com/rammakasty/readmy/assets/25074165/0aead7f6-1191-47b4-913e-d323ea99c740">
-</p>
-
-  - api
-# [api](https://app.gitbook.com/o/3ZIunUQ2WiZIp9gGAoWE/s/Kqw3yoEod59gXOBkMex4/)
