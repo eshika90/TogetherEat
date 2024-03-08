@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { privateDecrypt } from 'crypto';
-import e from 'express';
 import * as nodemailer from 'nodemailer';
 import { SentMessageInfo } from 'nodemailer/lib/smtp-transport';
-import { use } from 'passport';
 import { User } from 'src/entity/user.entity';
 import { Repository } from 'typeorm';
 export interface VerificationCodeInfo {

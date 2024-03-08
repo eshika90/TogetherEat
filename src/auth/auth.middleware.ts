@@ -50,7 +50,9 @@ export class AuthMiddleware implements NestMiddleware {
           await this.authService.generateAccessToken(payload);
         return { AccessToken: 'Bearer ' + newAccessToken };
       }
-
+      if (!RefreshToken) {
+        return { message: '재로그인이 필요합니다.' };
+      }
       next();
     } catch (err) {
       console.log(err);

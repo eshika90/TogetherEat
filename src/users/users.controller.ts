@@ -6,19 +6,28 @@ import {
   Patch,
   Post,
   Req,
+  Res,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create.user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { UpdateUserDto } from './dto/update.user.dto';
 import { DeleteUserDto } from './dto/delete.user.dto';
+import { AuthGuard } from 'src/auth/security/auth.guard';
 interface RequestWithLocals extends Request {
   locals: {
     user: {
       id: number;
       nick_name: string;
     };
+  };
+}
+interface AuthguardRequest extends Request {
+  userInfo: {
+    id: number;
+    nickname: string;
   };
 }
 
@@ -28,10 +37,10 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get('/find')
-  async getUserEmail(@Req() request: RequestWithLocals) {
-    const auth = request.locals.user;
-    const usefInfo = await this.userService.getUserNickName(auth.id);
-    return usefInfo.nick_name;
+  @UseGuards(AuthGuard)
+  async getUserEmail(@Req() request: AuthguardRequest) {
+    const userInfo = request.userInfo;
+    return userInfo.nickname;
   }
 
   // 인증번호 전송 엔드포인트
@@ -44,7 +53,7 @@ export class UsersController {
   // 메일 인증 확인 엔드포인트
   @Post('/verify-code')
   async verifyCode(@Body('email') email: string, @Body('code') code: string) {
-    await this.userService.verifyCode(email, code);
+    const checkEmail = await this.userService.verifyCode(email, code);
     return { message: '이메일이 인증되었습니다.' };
   }
 
@@ -75,6 +84,26 @@ export class UsersController {
       AccessToken: 'Bearer ' + authentication.accessToken,
       RefreshToken: 'Bearer ' + authentication.refreshToken,
     };
+  }
+
+  // 서버 로그인
+  @Post('/server-login')
+  async serverLogin(
+    @Body() data: LoginUserDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const tokens = await this.userService.login(data.email, data.password);
+    response.cookie('AccessToken', 'Bearer' + tokens.accessToken);
+    response.cookie('RefreshToken', 'Bearer' + tokens.refreshToken);
+    return { message: 'server-login 완료' };
+  }
+
+  // 서버 로그아웃
+  @Post('/server-logout')
+  serverLogout(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('AccessToken');
+    response.clearCookie('RefreshToken');
+    return { message: 'server-logout 완료' };
   }
 
   //유저 정보 수정(닉네임, 패스워드)

@@ -3,9 +3,8 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
+  Inject,
 } from '@nestjs/common';
-
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,13 +12,17 @@ import _, { remove } from 'lodash';
 import { Repository } from 'typeorm';
 import { User } from 'src/entity/user.entity';
 import { MailService } from 'src/mail/mail.service';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 let isEmailVerified: Record<string, boolean> = {};
 let codeObject: Record<string, string> = {};
+
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private jwtService: JwtService,
     private mailservice: MailService,
   ) {}
@@ -31,6 +34,13 @@ export class UsersService {
     });
   }
 
+  async findUserById(id: number) {
+    return await this.userRepository.findOne({
+      where: { id, deletedAt: null },
+      select: ['id', 'nick_name'],
+    });
+  }
+
   async getUserNickName(user_id: number) {
     return await this.userRepository.findOne({
       where: { id: user_id },
@@ -38,7 +48,7 @@ export class UsersService {
     });
   }
 
-  // 중복이메일 확인
+  // node-mailer 로직
   async mailSend(email: string, code: string) {
     const existUser = await this.userRepository.findOne({
       where: { email },
@@ -47,33 +57,28 @@ export class UsersService {
       throw new ConflictException('이미 사용 중인 이메일입니다.');
     }
 
-    // 이메일 인증 상태 객체 초기화
-    isEmailVerified['email'] = false; // 해당 이메일의 인증 상태를 false로 설정
-
     // 메일 전송 및 랜덤 코드 생성 및 저장
     const verificationCode = this.generateVerificationCode();
     await this.mailservice.sendVerificationCode(
       email,
       verificationCode.toString(),
     );
-
-    // 랜덤 코드를 객체에 저장
-    codeObject['code'] = verificationCode.toString();
-    codeObject['email'] = email;
-    // 일정 시간 후에 랜덤 코드를 삭제하도록 설정
-    setTimeout(() => {
-      delete codeObject['code'];
-    }, 300000);
+    // 캐시로 랜덤 코드 저장하기
+    const setCode = await this.cacheManager.set(email, verificationCode, 180);
+    console.log('data set to cache', setCode);
+    return '메일로 코드가 전송되었습니다.';
   }
 
   // 메일 인증 확인하는 코드 로직이 필요
   async verifyCode(email: string, code: string) {
-    if (codeObject['code'] !== code || codeObject['email'] !== email) {
+    const getCacheCode = await this.cacheManager.get(email);
+    console.log('data get to cache', getCacheCode);
+    if (!email || getCacheCode != code) {
       throw new ConflictException(
         '인증 코드 및 인증 이메일이 유효하지 않습니다.',
       );
     } else {
-      isEmailVerified['email'] = true;
+      return '인증이 완료되었습니다.';
     }
   }
 
@@ -102,15 +107,23 @@ export class UsersService {
       nick_name,
       password: hashedPassword,
     });
+
     const payload = {
       id: insertResult.identifiers[0].id,
     };
+
     const accessToken = await this.jwtService.signAsync(payload, {
       expiresIn: '30m',
     });
-    const refreshToken = await this.jwtService.signAsync(payload, {
+
+    const refreshPayload = {
+      accessToken: accessToken,
+    };
+
+    const refreshToken = await this.jwtService.signAsync(refreshPayload, {
       expiresIn: '7d',
     });
+
     await this.userRepository.update(insertResult.identifiers[0].id, {
       refresh_token: refreshToken,
     });
@@ -131,14 +144,28 @@ export class UsersService {
     if (!matchedPassward) {
       throw new ConflictException('비밀번호가 일치하지 않습니다.');
     }
+
     const payload = {
       id: userConfirm.id,
       nick_name: userConfirm.nick_name,
     };
+
     const accessToken = await this.jwtService.signAsync(payload, {
       expiresIn: '30m',
     });
-    const refreshToken = userConfirm.refresh_token;
+
+    const refreshPayload = {
+      id: userConfirm.id,
+    };
+
+    const refreshToken = await this.jwtService.signAsync(refreshPayload, {
+      expiresIn: '7d',
+    });
+
+    console.log('새로 발급된 token', refreshToken);
+    await this.userRepository.update(userConfirm.id, {
+      refresh_token: refreshToken,
+    });
     return { accessToken, refreshToken };
   }
 
@@ -220,12 +247,19 @@ export class UsersService {
       await this.userRepository.save(userToUpdate); // 변경 사항을 저장합니다.
     }
   }
-  
+
   // 관리자 판별
   async getUserAdmin(user_id: number) {
     return await this.userRepository.findOne({
       where: { id: user_id },
       select: ['is_admin'],
+    });
+  }
+
+  async createKakaoUser(user) {
+    this.userRepository.insert({
+      email: user.email,
+      nick_name: user.nickName,
     });
   }
 }

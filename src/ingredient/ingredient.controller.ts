@@ -5,17 +5,15 @@ import {
   Get,
   Post,
   Req,
-  Res,
   Param,
-  BadRequestException,
   Patch,
 } from '@nestjs/common';
 import { IngredientService } from './ingredient.service';
-import { Request, Response, response } from 'express';
+import { Request } from 'express';
 import { createIngredientDto } from './dto/create.ingredient.dto';
 import { updateIngredientDto } from './dto/update.ingredient.dto';
 import { deleteIngredientDto } from './dto/delete.ingredient.dto';
-import { request } from 'http';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 interface RequestWithLocals extends Request {
   locals: {
@@ -43,7 +41,7 @@ export class IngredientController {
     );
     return { message: '재료 생성완료' };
   }
-  //재로 수정
+  //재료 수정
   @Patch('/:ingredient_id')
   async updateIngredient(
     @Body() data: updateIngredientDto,
@@ -59,17 +57,24 @@ export class IngredientController {
     return { message: '카테고리 수정완료' };
   }
 
-  //재로 상세
+  //재료 상세
   @Get('/:ingredient_id')
   async getIngredient(@Param('ingredient_id') ingredient_id: number) {
     return this.ingredientService.getIngredient(ingredient_id);
   }
 
-  //재로 전체조회
+  //재료 전체조회
   @Get('/')
   async getIngredientAll() {
-    return this.ingredientService.getIngredientAll();
+    // return this.ingredientService.getIngredientAll();
+    return this.ingredientService.getIngredientAllcache();
   }
+
+  @Get('/test')
+  async getIngredientAllcache() {
+    return this.ingredientService.getIngredientAllcache();
+  }
+
   //재료 삭제
   @Delete('/:ingredient_id')
   async deleteIngredient(
