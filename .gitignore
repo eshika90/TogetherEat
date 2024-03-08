@@ -1,7 +1,7 @@
 # compiled output
 /dist
 /node_modules
-/public/src/kakaomap-api.html
+/public/kakaomap-api.html
 
 # Logs
 logs
