@@ -21,6 +21,10 @@
 
 ![service_architecture](./img/togetherEat_service_architecture_rv1.png)
 
+## 📑 API Receipt
+
+[api-receipt](https://juicy-point-b0c.notion.site/TogetherEat-API-Receipt-fe0d32d53d794b0784cb2b10a7fed813?pvs=4)
+
 ## 💡 Technical Decision
 |Skill|Desciption|
 |:---|:---:|
